@@ -18,7 +18,7 @@ def import_and_preprocess():
     pandas.DataFrame, pandas.DataFrame
         Dataframes of preprocessed churn and orders data, respectively.
     """
-    churn_data = pd.read_json('../data/challenge/is_churn.json', dtype={'last_purchase_date': 'datetime64'})
+    churn_data = pd.read_json('data/is_churn.json', dtype={'last_purchase_date': 'datetime64'})
     churn_data.last_purchase_date = pd.to_datetime(churn_data.last_purchase_date.dt.date)
     churn_data = (
         churn_data
@@ -26,7 +26,7 @@ def import_and_preprocess():
         .sort_values('last_purchase_date')   # added this line since chronology is important for churn prediction
         .reset_index(drop=True)
     )
-    orders_data = pd.read_json('../data/challenge/orders.json')   # starts preprocessing of `orders_data`
+    orders_data = pd.read_json('data/orders.json')   # starts preprocessing of `orders_data`
     orders_data = (
         orders_data
         .query('customer_code in @churn_data.customer_code.unique()')
